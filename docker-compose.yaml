@@ -1,0 +1,40 @@
+version: '3.8'
+services:
+  backend:
+    image: vishnu9/backend:1.11
+    container_name: backend
+    ports:
+      - "5000:5000" 
+    environment:
+      PORT: 5000
+      DB: mongodb://vishnu:qwerasdf@mongo:27017/blogdb?authSource=admin
+      CLOUD_NAME: duphfhell
+      API_KEY: 975912629327681
+      API_SECRET: O1dyjRa0SKJeT1iDwdLVs8Lwtss
+      SECRET: D7ELJWVdULgyKfOIrb+gWkaXPnnwa0XAaZwzbcXx/cc=
+    depends_on:
+      - mongo 
+  frontend:
+    image: vishnu9/frontend:2.11
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_BASE_URL= "http://localhost:5000/api"
+    depends_on:
+      - backend
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    restart: always
+    ports:
+      - "27017:27017" 
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: vishnu 
+      MONGO_INITDB_ROOT_PASSWORD: qwerasdf 
+      DB: blogdb
+    volumes:
+      - mongo_data:/data/db 
+
+volumes:
+  mongo_data: 
